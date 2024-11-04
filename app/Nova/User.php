@@ -50,17 +50,18 @@ class User extends Resource
 
             Gravatar::make()->maxWidth(50),
 
-            Text::make('Nombre')
+            Text::make('Name')
                 ->sortable()
                 ->rules('required', 'max:255'),
 
             Text::make('Email')
                 ->sortable()
-                ->rules('required', 'email', 'max:254')
+                ->rules('required', 'email', 'max:254', 'regex:/@sidetours\.com$/')
                 ->creationRules('unique:users,email')
                 ->updateRules('unique:users,email,{{resourceId}}'),
-
-            Password::make('Contraseña')
+                
+            Password::make('Password')
+                ->rules('min:8', 'string','regex:/[0-9A-Za-z!@#$%*]/')
                 ->onlyOnForms()
                 ->creationRules('required', Rules\Password::defaults())
                 ->updateRules('nullable', Rules\Password::defaults()),
